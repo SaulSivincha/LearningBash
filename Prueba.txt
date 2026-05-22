@@ -1,0 +1,16 @@
+nombre,curso,nota
+Ana,Bash,18
+Luis,Python,15
+Maria,Bash,19
+Carlos,Linux,14
+Ana,Bash,18
+Rosa,Git,16
+Pedro,Bash,11
+Lucia,Python,17
+Carlos,Linux,14
+Miguel,Git,13
+Sofia,Bash,20
+Luis,Python,15
+Diana,Linux,12
+Jorge,Git,16
+Rosa,Git,16
