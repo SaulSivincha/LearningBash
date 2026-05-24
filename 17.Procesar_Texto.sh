@@ -27,4 +27,4 @@ then
 else
     echo "Uso correcto: ./16.ProcesarTexto.sh archivo.txt"
     exit 1
-fi
+fi0
