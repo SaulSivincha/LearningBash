@@ -12,42 +12,58 @@ mostrar_opciones () {
     echo "0. Salir"
 }
 
-mostrar_info_general () {
-    echo "Ruta actual: "
-    pwd
-    echo "Fecha actual: "
-    date 
-    echo "Cantidad Carpetas: "
-    cantidad_carpetas
-    echo "Cantidad Archivos"
-}
-
 cantidad_carpetas () {
     cantidad_carpetas=0
-    for elemento in ${1}
+    for elemento in ${1}/*
     do
         if [[ -d "${elemento}" ]]
         then
             ((cantidad_carpetas++))
         fi
     done
-    echo cantidad_carpetas
+    echo "${cantidad_carpetas}"
 }
 
-cantidad_archivos() {
+cantidad_archivos () {
     cantidad_archivos=0
-    for elemento in ${1}
+    for elemento in ${1}/*
     do 
-        if [[ -f $"{elemento}" ]]
+        if [[ -f "${elemento}" ]]
         then
             ((cantidad_archivos++))
         fi
     done
-    echo cantidad_archivos
+    echo "${cantidad_archivos}"
 }
 
+cant_archivos_carpeta () {
+    contador=0
+    for elemento in "${1}"/*
+    do
+        if [[ -f "${elemento}" ]]
+        then 
+            ((contador++))
+        elif [[ -d "${elemento}" ]]
+        then
+            contador_again=$(cant_archivos_carpeta "${elemento}")
+            contador=$((contador + contador_again))
+        fi
+    done  
+    echo "${contador}"      
+}
 
-if [[ ${1} -eq 1 ]]
+mostrar_info_general () {
+    echo "Ruta actual: "
+    pwd
+    echo "Fecha actual: "
+    date 
+    echo "Cantidad Carpetas: "
+    cantidad_carpetas "${1}"
+    echo "Cantidad Archivos"
+    cant_archivos_carpeta "${1}"
+}
+
+if [[ $# -eq 1 ]]
 then
     if [[ -d ${1} ]]
     then
@@ -78,8 +94,6 @@ then
             then
 
             else
-
-            then
             fi
         done
     else
