@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#funcion 1
 mostrar_opciones () {
     echo "1. Mostrar información general de la carpeta"
     echo "2. Listar archivos .txt"
@@ -36,10 +37,6 @@ cantidad_archivos () {
     echo "${cantidad_archivos}"
 }
 
-listar_archivos () {
-    
-}
-
 cant_archivos_carpeta () {
     contador=0
     for elemento in "${1}"/*
@@ -67,6 +64,15 @@ mostrar_info_general () {
     cant_archivos_carpeta "${1}"
 }
 
+#funcion 2
+listar_archivos () {
+    find . -maxdepth 10 -type f -name "*.txt"
+}
+
+#funcion 3
+
+
+
 if [[ $# -eq 1 ]]
 then
     if [[ -d ${1} ]]
@@ -85,6 +91,7 @@ then
             elif [[ "${opcion}" -eq 2 ]]
             then
                 echo "Listar archivos completos"
+                listar_archivos ${1}
             elif [[ "${opcion}" -eq 3 ]]
             then
 
