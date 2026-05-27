@@ -36,6 +36,10 @@ cantidad_archivos () {
     echo "${cantidad_archivos}"
 }
 
+listar_archivos () {
+    
+}
+
 cant_archivos_carpeta () {
     contador=0
     for elemento in "${1}"/*
@@ -74,10 +78,13 @@ then
             read -p "Elige una opción: " opcion
             if [[ "${opcion}" -eq 1 ]]
             then
-
+                echo "Cantidad de carpetas:"
+                cantidad_carpetas ${1}
+                echo "Cantidad de archivos"
+                cantidad_archivos ${1}
             elif [[ "${opcion}" -eq 2 ]]
             then
-
+                echo "Listar archivos completos"
             elif [[ "${opcion}" -eq 3 ]]
             then
 
