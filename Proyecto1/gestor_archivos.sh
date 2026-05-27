@@ -66,7 +66,7 @@ mostrar_info_general () {
 
 #funcion 2
 listar_archivos () {
-    find . -maxdepth 10 -type f -name "*.txt"
+    find . -maxdepth 10 -type f -name "*.${1}"
 }
 
 #funcion 3
@@ -90,8 +90,9 @@ then
                 cantidad_archivos ${1}
             elif [[ "${opcion}" -eq 2 ]]
             then
+                read -p "Ingresa la terminacion de los archivos:" terminacion
                 echo "Listar archivos completos"
-                listar_archivos ${1}
+                listar_archivos "${terminacion}"
             elif [[ "${opcion}" -eq 3 ]]
             then
 
