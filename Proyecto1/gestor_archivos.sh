@@ -66,7 +66,7 @@ mostrar_info_general () {
 
 #funcion 2
 listar_archivos () {
-    find . -maxdepth 10 -type f -name "*.${1}"
+    find "${1}" -maxdepth 10 -type f -name "*.${2}"
 }
 
 #funcion 3
@@ -85,14 +85,14 @@ then
             if [[ "${opcion}" -eq 1 ]]
             then
                 echo "Cantidad de carpetas:"
-                cantidad_carpetas ${1}
+                cantidad_carpetas "${1}"
                 echo "Cantidad de archivos"
-                cantidad_archivos ${1}
+                cantidad_archivos "${1}"
             elif [[ "${opcion}" -eq 2 ]]
             then
                 read -p "Ingresa la terminacion de los archivos:" terminacion
                 echo "Listar archivos completos"
-                listar_archivos "${terminacion}"
+                listar_archivos "${1}" "${terminacion}"
             elif [[ "${opcion}" -eq 3 ]]
             then
 
@@ -112,7 +112,7 @@ then
             fi
         done
     else
-        echo "Ingrese un archivo que exista"
+        echo "Ingrese un directorio que exista"
         exit 1
     fi
 else 
