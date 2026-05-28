@@ -70,6 +70,21 @@ listar_archivos () {
 }
 
 #funcion 3
+analizar_archivo_txt () {
+    if [[ "${1}" == "*.txt" ]]
+    then
+        echo "Primeras 5 lineas"
+        head -n 5 "${1}"
+        echo "Ultimas 5 lineas"
+        tail -n 5 "${1}"
+        echo "Cantidad de lineas"
+        wc -l "${1}"
+        echo "Cantidad de palabras"
+        wc -w ${1}
+    else
+        echo "No es un archivo de texto"
+    fi
+}
 
 
 
@@ -95,7 +110,9 @@ then
                 listar_archivos "${1}" "${terminacion}"
             elif [[ "${opcion}" -eq 3 ]]
             then
+                read -p "Ingresa el archivo de texto que quieres analziar" archivo
 
+                
             elif [[ "${opcion}" -eq 4 ]]
             then
 
