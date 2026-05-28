@@ -71,7 +71,7 @@ listar_archivos () {
 
 #funcion 3
 analizar_archivo_txt () {
-    if [[ "${1}" == "*.txt" ]]
+    if [[ "${1}" == *.txt ]]
     then
         echo "Primeras 5 lineas"
         head -n 5 "${1}"
@@ -84,6 +84,24 @@ analizar_archivo_txt () {
     else
         echo "No es un archivo de texto"
     fi
+}
+
+#funcion 4
+buscar_palabra_txt () {
+    echo "Palabra buscada ${1}"
+    grep -rio --include="*.txt" "${1}" "${2}" | wc -l
+}
+
+#funcion 5
+reporte_general () {
+    mkdir "Reportes"
+    touch reporte_general.txt
+    echo "Carpeta Analizada: ${1}" >> reporte_general.txt
+    echo "Fecha: $(date)" >> reporte_general.txt
+    echo "Cantidad de carpetas $(cantidad_carpetas "$1")" >> reporte_general.txt
+    echo "Cantidad de archivos $(cantidad_archivos "$1")" >> reporte_general.txt
+    mv reporte_general.txt ./Reportes
+    echo "Archivo generado en el directorio Reportes"
 }
 
 
@@ -103,21 +121,29 @@ then
                 cantidad_carpetas "${1}"
                 echo "Cantidad de archivos"
                 cantidad_archivos "${1}"
+
             elif [[ "${opcion}" -eq 2 ]]
             then
                 read -p "Ingresa la terminacion de los archivos:" terminacion
                 echo "Listar archivos completos"
                 listar_archivos "${1}" "${terminacion}"
+
             elif [[ "${opcion}" -eq 3 ]]
             then
                 read -p "Ingresa el archivo de texto que quieres analziar" archivo
+                echo "Ingresa el directorio en el cual lo buscara"
+                analizar_archivo_txt "${archivo}" "${1}"
 
-                
             elif [[ "${opcion}" -eq 4 ]]
             then
+                read -p "Ingresa la palabra que buscaremos" palabra
+                echo "Ingresa el directorio"
+                buscar_palabra_txt "${palabra}" "${1}"
 
             elif [[ "${opcion}" -eq 5 ]]
             then
+                echo "Generando reporte general"
+                reporte_general "${1}"
 
             elif [[ "${opcion}" -eq 6 ]]
             then
@@ -126,6 +152,8 @@ then
             then
 
             else
+                echo "Saliendo..."
+                break
             fi
         done
     else
