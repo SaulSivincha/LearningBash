@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#funcion 8
+guardar_historial () {
+    echo "$(date) ${1}" >> historial.log
+}
+
+ver_historial () {
+    if [[ -f "historial.log" ]]
+    then
+        cat historial.log
+    else
+        echo "Todavia no hay historial"
+    fi
+}
+
 #funcion 1
 mostrar_opciones () {
     echo "1. Mostrar información general de la carpeta"
@@ -80,7 +94,7 @@ analizar_archivo_txt () {
         echo "Cantidad de lineas"
         wc -l "${1}"
         echo "Cantidad de palabras"
-        wc -w ${1}
+        wc -w "${1}"
     else
         echo "No es un archivo de texto"
     fi
@@ -94,7 +108,7 @@ buscar_palabra_txt () {
 
 #funcion 5
 reporte_general () {
-    mkdir "Reportes"
+    mkdir -p "Reportes"
     touch reporte_general.txt
     echo "Carpeta Analizada: ${1}" >> reporte_general.txt
     echo "Fecha: $(date)" >> reporte_general.txt
@@ -112,17 +126,14 @@ crear_backup () {
 #funcion 7
 eliminar_archivos_vacios () {
     echo "Archivos encontrados"
-    find "${2}" -name "*.${1}" -empty 
+    find "${2}" -type f -name "*.${1}" -empty 
     read -p "Desea eliminarlos?" respuesta
     if [[ "${respuesta}" == "si" ]]
     then
-        find "${2}" -name "*.${1}" -empty -delete
+        find "${2}" -type f -name "*.${1}" -empty -delete
     fi
     echo "Archivos eliminados"
 }
-
-
-
 
 if [[ $# -eq 1 ]]
 then
@@ -139,45 +150,52 @@ then
                 cantidad_carpetas "${1}"
                 echo "Cantidad de archivos"
                 cantidad_archivos "${1}"
+                guardar_historial "Se mostro la informacion general de la carpeta"
 
             elif [[ "${opcion}" -eq 2 ]]
             then
                 read -p "Ingresa la terminacion de los archivos:" terminacion
                 echo "Listar archivos completos"
                 listar_archivos "${1}" "${terminacion}"
+                guardar_historial "Se listaron los archivos con terminacion ${terminacion}"
 
             elif [[ "${opcion}" -eq 3 ]]
             then
                 read -p "Ingresa el archivo de texto que quieres analziar" archivo
                 echo "Ingresa el directorio en el cual lo buscara"
                 analizar_archivo_txt "${archivo}" "${1}"
+                guardar_historial "Se analizo el archivo"
 
             elif [[ "${opcion}" -eq 4 ]]
             then
                 read -p "Ingresa la palabra que buscaremos" palabra
                 echo "Ingresa el directorio"
                 buscar_palabra_txt "${palabra}" "${1}"
+                guardar_historial "Se busco la palabra: ${palabra}"
 
             elif [[ "${opcion}" -eq 5 ]]
             then
                 echo "Generando reporte general"
                 reporte_general "${1}"
+                guardar_historial "Se genero el reporte general"
 
             elif [[ "${opcion}" -eq 6 ]]
             then
                 echo "Comprimir archivo en tar"
                 crear_backup "${1}"
+                guardar_historial "Se creo el backup"
 
             elif [[ "${opcion}" -eq 7 ]]
             then
                 read -p "Ingresar la terminacion del archivo" terminacion
                 echo "Ingresa el directorio"
                 eliminar_archivos_vacios "${terminacion}" "${1}"
+                guardar_historial "Se eliminaron los archivos vacios con terminacion ${terminacion}"
 
             elif [[ "${opcion}" -eq 8 ]]
             then  
-                read -p "Historial de acciones:"
-                historial_acciones_txt
+                echo "Historial de acciones:"
+                ver_historial
             else
                 echo "Saliendo..."
                 break
