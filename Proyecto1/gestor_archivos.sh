@@ -104,6 +104,24 @@ reporte_general () {
     echo "Archivo generado en el directorio Reportes"
 }
 
+#funcion 6
+crear_backup () {
+    tar -cvf "${1}_$(date +%Y-%m-%d_%H-%M-%S).tar" "${1}"
+}
+
+#funcion 7
+eliminar_archivos_vacios () {
+    echo "Archivos encontrados"
+    find "${2}" -name "*.${1}" -empty 
+    read -p "Desea eliminarlos?" respuesta
+    if [[ "${respuesta}" == "si" ]]
+    then
+        find "${2}" -name "*.${1}" -empty -delete
+    fi
+    echo "Archivos eliminados"
+}
+
+
 
 
 if [[ $# -eq 1 ]]
@@ -147,10 +165,19 @@ then
 
             elif [[ "${opcion}" -eq 6 ]]
             then
+                echo "Comprimir archivo en tar"
+                crear_backup "${1}"
 
             elif [[ "${opcion}" -eq 7 ]]
             then
+                read -p "Ingresar la terminacion del archivo" terminacion
+                echo "Ingresa el directorio"
+                eliminar_archivos_vacios "${terminacion}" "${1}"
 
+            elif [[ "${opcion}" -eq 8 ]]
+            then  
+                read -p "Historial de acciones:"
+                historial_acciones_txt
             else
                 echo "Saliendo..."
                 break
